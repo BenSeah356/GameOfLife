@@ -24,7 +24,7 @@ public class GameManagerBase : MonoBehaviour
         { //If the remainder of the current frame divided by 10 is 0 run the function.
             if (isGameStarted == true)
             {
-                for (var i = 0; i < count; ++i)//Grab Current GameState
+                for (var i = 0; i < count; ++i)//Grab Current GameState and store it into GameState[,]
                 {
                     int x = Convert.ToInt32(Cubes[i].name.Substring(6, 1));// x grid coordinate 
                     int y = Convert.ToInt32(Cubes[i].name.Substring(8, 1));// y grid coordinate
@@ -52,7 +52,7 @@ public class GameManagerBase : MonoBehaviour
                         }
                     }
                 }
-                for (var i = 0; i < count; ++i)//Output New GameState
+                for (var i = 0; i < count; ++i)//Output New GameState by changing isAlive amd color.
                 {
                     if (GameState[i, 2] == 1)// Find Game Object with name of "Cube (x,y)",  Change isAlive = true, and Change Renderer Material Color to black
                     {
@@ -95,7 +95,7 @@ public class GameManagerBase : MonoBehaviour
         bool isEdgePiece = false;
         int newx;
         int newy;
-        if ((x + 1) == 10)
+        if ((x + 1) == 10)//Check if wrap right and assign x value GameObject names in string variable
         {
             isEdgePiece = true;
             newx = 0;
@@ -108,7 +108,7 @@ public class GameManagerBase : MonoBehaviour
             southweststr = "Cube (" + (x - 1) + ",";
             weststr = "Cube (" + (x - 1) + ",";
         }
-        else if ((x - 1) == -1)
+        else if ((x - 1) == -1) //Check if wrap left and assign x value GameObject names in string variable
         {
             isEdgePiece = true;
             newx = 9;
@@ -121,7 +121,7 @@ public class GameManagerBase : MonoBehaviour
             southweststr = "Cube (" + (newx) + ",";
             weststr = "Cube (" + (newx) + ",";
         }
-        else
+        else //Non "x" edge piece and assign x value GameObject names in string variable
         {
             isEdgePiece = false;
             northweststr = "Cube (" + (x - 1) + ",";
@@ -133,7 +133,7 @@ public class GameManagerBase : MonoBehaviour
             southweststr = "Cube (" + (x - 1) + ",";
             weststr = "Cube (" + (x - 1) + ",";
         }
-        if ((y + 1) == 10)
+        if ((y + 1) == 10) // Check if wrap up and assign y value GameObject names in string variable
         {
             isEdgePiece = true;
             newy = 0;
@@ -154,17 +154,8 @@ public class GameManagerBase : MonoBehaviour
             southwest = GameObject.Find(southweststr);
             west = GameObject.Find(weststr);
             numberOfLiveCells = AddLiveNeigbors(northwest, north, northeast, east, southeast, south, southwest, west);
-            //Debug.Log("NorthWest Node for Node (" + x + "," + y + "): " + northweststr);
-            //Debug.Log("North Node for Node (" + x + "," + y + "): " + northstr);
-            //Debug.Log("NorthEast Node for Node (" + x + "," + y + "): " + northeaststr);
-            //Debug.Log("East Node for Node (" + x + "," + y + "): " + eaststr);
-            //Debug.Log("SouthEast Node for Node (" + x + "," + y + "): " + southeaststr);
-            //Debug.Log("South Node for Node (" + x + "," + y + "): " + southstr);
-            //Debug.Log("SouthWest Node for Node (" + x + "," + y + "): " + southweststr);
-            //Debug.Log("West Node for Node (" + x + "," + y + "): " + weststr);
-            //Debug.Log("Number of Live Neigbors for Node (" + x + "," + y + "): " + numberOfLiveCells);
         }
-        else if ((y - 1) == -1)
+        else if ((y - 1) == -1) //Check if wrap down and assign y value GameObject names in string variable
         {
             isEdgePiece = true;
             newy = 9;
@@ -186,7 +177,7 @@ public class GameManagerBase : MonoBehaviour
             west = GameObject.Find(weststr);
             numberOfLiveCells = AddLiveNeigbors(northwest, north, northeast, east, southeast, south, southwest, west);
         }
-        else
+        else//Non "x" edge piece and assign y value GameObject names in string variable
         {
             isEdgePiece = false;
             northweststr = northweststr + (y + 1) + ")";
@@ -197,6 +188,7 @@ public class GameManagerBase : MonoBehaviour
             southstr = southstr + (y - 1) + ")";
             southweststr = southweststr + (y - 1) + ")";
             weststr = weststr + (y) + ")";
+            //Find neighboring GameObjects using "GameObject.Find()"
             northwest = GameObject.Find(northweststr);
             north = GameObject.Find(northstr);
             northeast = GameObject.Find(northeaststr);
@@ -205,6 +197,7 @@ public class GameManagerBase : MonoBehaviour
             south = GameObject.Find(southstr);
             southwest = GameObject.Find(southweststr);
             west = GameObject.Find(weststr);
+            //Pass Neighbors into AddLiveNeigbors function
             numberOfLiveCells = AddLiveNeigbors(northwest, north, northeast, east, southeast, south, southwest, west);
         }
         return numberOfLiveCells;
@@ -213,7 +206,7 @@ public class GameManagerBase : MonoBehaviour
     int AddLiveNeigbors(GameObject northwest, GameObject north, GameObject northeast, GameObject east, GameObject southeast, GameObject south, GameObject southwest, GameObject west)
     {
         int total = 0;
-        if (northwest.GetComponent<Renderer>().material.GetColor("_Color") == Color.black)
+        if (northwest.GetComponent<Renderer>().material.GetColor("_Color") == Color.black)//If it is a black color, it is alive and add 1 to total.
         {
             total = total + 1;
         }
